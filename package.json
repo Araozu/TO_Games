@@ -2,7 +2,7 @@
   "name": "TO-games",
   "version": "1.0.0",
   "description": "A set of games developed for the Object Technology course of the Universidad Nacional de San Agustin.",
-  "main": "index.ts",
+  "main": "./src/index.ts",
   "repository": "https://github.com/Araozu/TO_Games",
   "author": "Araozu",
   "license": "MIT",
