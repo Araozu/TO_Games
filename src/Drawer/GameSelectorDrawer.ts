@@ -3,7 +3,15 @@ import HTMLElementStyleApplier from "../Utils/HTMLElementStyleApplier";
 
 export default class GameSelectorDrawer implements ContentDrawer {
 
-    container: HTMLDivElement;
+    private _element: HTMLDivElement;
+
+    constructor() {
+        this._element = this.createContainer();
+    }
+
+    get element(): HTMLDivElement {
+        return this._element;
+    }
 
     private createContainer() {
         const elem = document.createElement("div");
@@ -20,14 +28,8 @@ export default class GameSelectorDrawer implements ContentDrawer {
         return elem;
     }
 
-    draw(): HTMLElement {
-        const elem = this.createContainer();
-        this.container = elem;
-        return elem;
-    }
-
     addButton(button: HTMLButtonElement) {
-        this.container.appendChild(button);
+        this._element.appendChild(button);
     }
 
 }

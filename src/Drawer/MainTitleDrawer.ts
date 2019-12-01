@@ -3,6 +3,19 @@ import HTMLElementStyleApplier from "../Utils/HTMLElementStyleApplier";
 
 export default class MainTitleDrawer implements ContentDrawer {
 
+    private _element: HTMLElement;
+
+    constructor() {
+        const elem = this.createContainer();
+        elem.innerText = "Games";
+
+        this._element = elem;
+    }
+
+    get element(): HTMLElement {
+        return this._element;
+    }
+
     private createContainer() {
         const elem = document.createElement("div");
         const styleApplier = new HTMLElementStyleApplier(elem);
@@ -18,11 +31,5 @@ export default class MainTitleDrawer implements ContentDrawer {
         return elem;
     }
 
-    draw(): HTMLDivElement {
-        const elem = this.createContainer();
-
-        elem.innerText = "Games";
-        return elem;
-    }
 
 }
