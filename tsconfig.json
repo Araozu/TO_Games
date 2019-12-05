@@ -4,7 +4,8 @@
     "noImplicitAny": true,
     "removeComments": true,
     "target": "es2015",
-    "sourceMap": true
+    "sourceMap": true,
+    "strict": true
   },
   "exclude": [
     "node_modules"

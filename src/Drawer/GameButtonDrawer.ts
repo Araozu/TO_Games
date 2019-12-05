@@ -1,7 +1,7 @@
 import ContentDrawer from "../Interfaces/ContentDrawer";
 import HTMLElementStyleApplier from "../Utils/HTMLElementStyleApplier";
 
-export default class GameButtonDrawer implements ContentDrawer{
+export default class GameButtonDrawer implements ContentDrawer {
 
     private _element: HTMLButtonElement;
     private gameName: string;

@@ -3,8 +3,9 @@ import MainScreen from "./Screens/MainScreen";
 import HTMLElementGetter from "./Utils/HTMLElementGetter";
 import GameSelectorDrawer from "./Drawer/GameSelectorDrawer";
 import GameButtonDrawer from "./Drawer/GameButtonDrawer";
+import GameContainer from "./Screens/GameContainer";
 
-const initiateGameButtons = (ga: GameSelectorDrawer) => {
+const initiateGameButtons = (ga: GameSelectorDrawer, gameContainer: GameContainer) => {
 
     const button1 = new GameButtonDrawer("Battleship");
     button1.addClickEventListener(() => {
@@ -14,7 +15,7 @@ const initiateGameButtons = (ga: GameSelectorDrawer) => {
 
     const button2 = new GameButtonDrawer("Tic Tac Toe");
     button2.addClickEventListener(() => {
-        console.log("Yet again...")
+        console.log("Creating TicTacToe")
     });
     ga.addButton(button2.element);
 
@@ -35,7 +36,10 @@ const main = async (args: string[]) => {
     const gameSelectorDrawer = new GameSelectorDrawer();
     mainScreen.draw(gameSelectorDrawer);
 
-    initiateGameButtons(gameSelectorDrawer);
+    const gameContainer = new GameContainer();
+    mainScreen.draw(gameContainer);
+
+    initiateGameButtons(gameSelectorDrawer, gameContainer);
 
 };
 
