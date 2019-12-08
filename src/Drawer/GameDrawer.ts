@@ -4,7 +4,7 @@ export default abstract class GameDrawer implements ContentDrawer {
 
     private readonly _element: HTMLElement;
 
-    protected constructor() {
+    constructor() {
         this._element = this.createElement();
     }
 

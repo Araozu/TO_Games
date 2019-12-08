@@ -22,7 +22,9 @@ export default class GameContainer implements ContentDrawer {
         return elem;
     }
 
-    private drawGame(game: GameDrawer) {
+    drawGame(game: GameDrawer) {
+
+        console.log("Drawing a new game...");
 
         const el = this._element;
         if (el.firstChild) {
