@@ -18,8 +18,9 @@ in a web page. However, I won't use the typical web tools. For instance,
 there will only be 1 html file with almost no html code, no CSS files.
 All the drawing process will be done programatically using JavaScript.
 
-The language itself won't be JavaScript, by the way. JavaScript features
-at most classes, thus is not useful for building an OO program. Instead,
+The language itself won't be JavaScript, by the way. JavaScript has clases,
+but those are very minimal, lacking features like abstract members,
+interfaces, etc. thus is not useful for building an OO program. Instead,
 I will use TypeScript (https://www.typescriptlang.org/) which brings
 OO features to JavaScript.
 
