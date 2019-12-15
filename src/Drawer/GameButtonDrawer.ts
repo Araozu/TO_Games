@@ -5,6 +5,7 @@ export default class GameButtonDrawer implements ContentDrawer {
 
     private _element: HTMLButtonElement;
     private gameName: string;
+    private isActive = false;
 
     constructor(gameName: string) {
         this.gameName = gameName;
@@ -35,6 +36,25 @@ export default class GameButtonDrawer implements ContentDrawer {
 
     addClickEventListener(el: () => void) {
         this._element.addEventListener("click", el);
+    }
+
+    public setAsActive() {
+        const elem = this._element;
+        const styleApplier = new HTMLElementStyleApplier(elem);
+        const apply = styleApplier.apply.bind(styleApplier);
+
+        apply("background-color", "#009688");
+        apply("color", "white");
+
+    }
+
+    public setAsDisabled() {
+        const elem = this._element;
+        const styleApplier = new HTMLElementStyleApplier(elem);
+        const apply = styleApplier.apply.bind(styleApplier);
+
+        apply("background-color", "white");
+        apply("color", "black");
     }
 
 }
