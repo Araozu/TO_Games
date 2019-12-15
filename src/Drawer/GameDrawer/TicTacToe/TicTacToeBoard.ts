@@ -1,7 +1,7 @@
-import ContentDrawer from "../../../Interfaces/ContentDrawer";
 import HTMLElementStyleApplier from "../../../Utils/HTMLElementStyleApplier";
 import TicTacToeElement from "./TicTacToeElement";
-import GameDrawer from "../../GameDrawer";
+import GameDrawerElement from "../../GameDrawerElement";
+import TicTacToePanel from "./TicTacToePanel";
 
 export enum BoardValue {
     X,
@@ -9,9 +9,10 @@ export enum BoardValue {
     NONE
 }
 
-export default class TicTacToeBoard extends GameDrawer implements ContentDrawer {
+export default class TicTacToeBoard extends GameDrawerElement {
 
-    protected _element: HTMLElement;
+    private readonly container: HTMLDivElement;
+    private readonly panel: HTMLElement;
     private actualPlayer = BoardValue.X;
     private elements: TicTacToeElement[] = [];
     private clickCounter = 0;
@@ -19,7 +20,10 @@ export default class TicTacToeBoard extends GameDrawer implements ContentDrawer 
 
     constructor() {
         super();
-        this._element = this.createElement();
+        this.container = this.createElement();
+        this.appendChild(this.container);
+        this.panel = new TicTacToePanel();
+        this.appendChild(this.panel);
     }
 
     protected createElement(): HTMLDivElement {
@@ -38,10 +42,8 @@ export default class TicTacToeBoard extends GameDrawer implements ContentDrawer 
 
         for (let i = 0; i <= 8; i++) {
             const element = new TicTacToeElement(i, this.getActualPlayer.bind(this), this.updateBoard.bind(this));
-            console.log(typeof this.elements);
-            console.log(this);
             this.elements.push(element);
-            container.appendChild(element.element);
+            container.appendChild(element);
         }
 
         return container;
@@ -54,7 +56,6 @@ export default class TicTacToeBoard extends GameDrawer implements ContentDrawer 
 
     private updateBoard() {
         if (this.gameEnded) {
-
             return;
         }
 
@@ -69,11 +70,13 @@ export default class TicTacToeBoard extends GameDrawer implements ContentDrawer 
         if (result[0]) {
             this.gameEnded = true;
             this.paintElementsVictory(result[1]);
+            return;
         }
 
         if (this.clickCounter === 9) {
             this.gameEnded = true;
             this.paintElementsDraw();
+            return;
         }
 
     }
@@ -149,20 +152,21 @@ export default class TicTacToeBoard extends GameDrawer implements ContentDrawer 
     }
 
     loadGameState(): void {
+
     }
 
     resetGame(): void {
+
     }
 
     resetGameState(): void {
+
     }
 
     saveGameState(): void {
+
     }
-
-    startGame(): void {
-    }
-
-
 
 }
+
+window.customElements.define("tic-tac-toe-board-element", TicTacToeBoard);

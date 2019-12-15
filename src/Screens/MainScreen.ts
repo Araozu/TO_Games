@@ -8,9 +8,8 @@ export default class MainScreen {
         this.mainDiv = mainDiv;
     }
 
-    draw(drawer: ContentDrawer) {
-        const element = drawer.element;
-        this.mainDiv.appendChild(element);
+    draw(drawer: HTMLElement) {
+        this.mainDiv.appendChild(drawer);
     }
 
 }

@@ -1,25 +1,23 @@
-import ContentDrawer from "../../../Interfaces/ContentDrawer";
 import {BoardValue} from "./TicTacToeBoard";
 import HTMLElementStyleApplier from "../../../Utils/HTMLElementStyleApplier";
 
-export default class TicTacToeElement implements ContentDrawer{
+export default class TicTacToeElement extends HTMLElement {
 
-    private readonly _element: HTMLDivElement;
     private readonly actualPlayerFunction: () => BoardValue;
     private readonly updateBoardFunction: () => void;
     private readonly position: number;
     actualValue = BoardValue.NONE;
 
     constructor(position: number, actualPlayerFunction: () => BoardValue, updateBoardFunction: () => void) {
+        super();
         this.position = position;
         this.actualPlayerFunction = actualPlayerFunction;
         this.updateBoardFunction = updateBoardFunction;
 
-        const element = document.createElement("div");
-        element.id = `tic_tac_toe_element_${ position }`;
-        element.setAttribute("clicked", "false");
+        this.id = `tic_tac_toe_element_${ position }`;
+        this.setAttribute("clicked", "false");
 
-        const styleApplier = new HTMLElementStyleApplier(element);
+        const styleApplier = new HTMLElementStyleApplier(this);
         const apply = styleApplier.apply.bind(styleApplier);
 
         apply("line-height", "200px");
@@ -60,13 +58,7 @@ export default class TicTacToeElement implements ContentDrawer{
                 break;
         }
 
-        element.addEventListener("click", this.handleClick.bind(this));
-
-        this._element = element;
-    }
-
-    get element() {
-        return this._element;
+        this.addEventListener("click", this.handleClick.bind(this));
     }
 
     private handleClick() {
@@ -75,13 +67,13 @@ export default class TicTacToeElement implements ContentDrawer{
 
         if (value == BoardValue.NONE) return;
 
-        const isClicked = this._element.getAttribute("clicked");
+        const isClicked = this.getAttribute("clicked");
 
         if (isClicked === "false") {
-            this._element.setAttribute("clicked", "true");
-            this._element.style.cursor = "default";
+            this.setAttribute("clicked", "true");
+            this.style.cursor = "default";
 
-            this._element.innerText = value === BoardValue.X ?
+            this.innerText = value === BoardValue.X ?
                 "X" :
                 value === BoardValue.O ?
                     "O" :
@@ -94,7 +86,9 @@ export default class TicTacToeElement implements ContentDrawer{
     }
 
     paintText(color: string) {
-        this._element.style.color = color;
+        this.style.color = color;
     }
 
 }
+
+window.customElements.define("tic-tac-toe-element-element", TicTacToeElement);

@@ -1,5 +1,5 @@
 import ContentDrawer from "../Interfaces/ContentDrawer";
-import GameDrawer from "../Drawer/GameDrawer";
+import GameDrawerElement from "../Drawer/GameDrawerElement";
 
 export default class GameContainer implements ContentDrawer {
 
@@ -22,7 +22,7 @@ export default class GameContainer implements ContentDrawer {
         return elem;
     }
 
-    drawGame(game: GameDrawer) {
+    drawGame(game: GameDrawerElement) {
 
         console.log("Drawing a new game...");
 
@@ -31,7 +31,7 @@ export default class GameContainer implements ContentDrawer {
             el.removeChild(el.firstChild);
         }
 
-        el.appendChild(game.element);
+        el.appendChild(game);
         game.resetGame();
 
     }
