@@ -1,5 +1,6 @@
 import ContentDrawer from "../../../Interfaces/ContentDrawer";
-import {BoardValue} from "./Board";
+import {BoardValue} from "./TicTacToeBoard";
+import HTMLElementStyleApplier from "../../../Utils/HTMLElementStyleApplier";
 
 export default class TicTacToeElement implements ContentDrawer{
 
@@ -18,41 +19,44 @@ export default class TicTacToeElement implements ContentDrawer{
         element.id = `tic_tac_toe_element_${ position }`;
         element.setAttribute("clicked", "false");
 
-        element.style.lineHeight = "200px";
-        element.style.verticalAlign = "middle";
-        element.style.fontSize = "150px";
-        element.style.userSelect = "none";
-        element.style.cursor = "pointer";
+        const styleApplier = new HTMLElementStyleApplier(element);
+        const apply = styleApplier.apply.bind(styleApplier);
+
+        apply("line-height", "200px");
+        apply("vertical-align", "middle");
+        apply("font-size", "150px");
+        apply("user-select", "none");
+        apply("cursor", "pointer");
 
         const border = "solid 5px black";
         switch (position) {
             case 0:
-                element.style.borderRight = border;
-                element.style.borderBottom = border;
+                apply("border-right", border);
+                apply("border-bottom", border);
                 break;
             case 1:
-                element.style.borderBottom = border;
+                apply("border-bottom", border);
                 break;
             case 2:
-                element.style.borderLeft = border;
-                element.style.borderBottom = border;
+                apply("border-left", border);
+                apply("border-bottom", border);
                 break;
             case 3:
-                element.style.borderRight = border;
+                apply("border-right", border);
                 break;
             case 5:
-                element.style.borderLeft = border;
+                apply("border-left", border);
                 break;
             case 6:
-                element.style.borderRight = border;
-                element.style.borderTop = border;
+                apply("border-right", border);
+                apply("border-top", border);
                 break;
             case 7:
-                element.style.borderTop = border;
+                apply("border-top", border);
                 break;
             case 8:
-                element.style.borderLeft = border;
-                element.style.borderTop = border;
+                apply("border-left", border);
+                apply("border-top", border);
                 break;
         }
 
@@ -68,6 +72,9 @@ export default class TicTacToeElement implements ContentDrawer{
     private handleClick() {
 
         const value = this.actualPlayerFunction();
+
+        if (value == BoardValue.NONE) return;
+
         const isClicked = this._element.getAttribute("clicked");
 
         if (isClicked === "false") {
