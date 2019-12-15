@@ -1,6 +1,7 @@
 import ContentDrawer from "../../../Interfaces/ContentDrawer";
 import HTMLElementStyleApplier from "../../../Utils/HTMLElementStyleApplier";
 import TicTacToeElement from "./TicTacToeElement";
+import GameDrawer from "../../GameDrawer";
 
 export enum BoardValue {
     X,
@@ -8,21 +9,20 @@ export enum BoardValue {
     NONE
 }
 
-export default class Board implements ContentDrawer {
+export default class TicTacToeBoard extends GameDrawer implements ContentDrawer {
 
-    private readonly _element: HTMLDivElement;
+    protected _element: HTMLElement;
     private actualPlayer = BoardValue.X;
     private elements: TicTacToeElement[] = [];
     private clickCounter = 0;
     private gameEnded = false;
 
     constructor() {
+        super();
         this._element = this.createElement();
     }
 
-    get element() { return this._element; }
-
-    private createElement(): HTMLDivElement {
+    protected createElement(): HTMLDivElement {
         const container = document.createElement("div");
         container.id = "tic_tac_toe_board";
 
@@ -34,9 +34,12 @@ export default class Board implements ContentDrawer {
         apply("grid-template-rows", "200px 200px 200px");
         apply("margin", "auto");
         apply("width", "600px");
+        apply("text-align", "center");
 
         for (let i = 0; i <= 8; i++) {
             const element = new TicTacToeElement(i, this.getActualPlayer.bind(this), this.updateBoard.bind(this));
+            console.log(typeof this.elements);
+            console.log(this);
             this.elements.push(element);
             container.appendChild(element.element);
         }
@@ -45,11 +48,15 @@ export default class Board implements ContentDrawer {
     }
 
     private getActualPlayer(): BoardValue {
-        return this.actualPlayer;
+        if (this.gameEnded) return BoardValue.NONE;
+        else return this.actualPlayer;
     }
 
     private updateBoard() {
-        if (this.gameEnded) return;
+        if (this.gameEnded) {
+
+            return;
+        }
 
         this.clickCounter++;
 
@@ -140,5 +147,22 @@ export default class Board implements ContentDrawer {
         }
         return this.compareElementValues3(2, 4, 6);
     }
+
+    loadGameState(): void {
+    }
+
+    resetGame(): void {
+    }
+
+    resetGameState(): void {
+    }
+
+    saveGameState(): void {
+    }
+
+    startGame(): void {
+    }
+
+
 
 }
