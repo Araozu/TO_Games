@@ -4,8 +4,7 @@ import HTMLElementStyleApplier from "../Utils/HTMLElementStyleApplier";
 export default class GameButtonDrawer implements ContentDrawer {
 
     private _element: HTMLButtonElement;
-    private gameName: string;
-    private isActive = false;
+    private readonly gameName: string;
 
     constructor(gameName: string) {
         this.gameName = gameName;

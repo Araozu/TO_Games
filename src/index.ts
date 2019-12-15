@@ -4,7 +4,7 @@ import HTMLElementGetter from "./Utils/HTMLElementGetter";
 import GameSelectorDrawer from "./Drawer/GameSelectorDrawer";
 import GameButtonDrawer from "./Drawer/GameButtonDrawer";
 import GameContainer from "./Screens/GameContainer";
-import TicTacToeDrawer from "./Drawer/GameDrawer/TicTacToeDrawer";
+import TicTacToeBoard from "./Drawer/GameDrawer/TicTacToe/TicTacToeBoard";
 
 const initiateGameButtons = (ga: GameSelectorDrawer, gameContainer: GameContainer) => {
 
@@ -16,8 +16,8 @@ const initiateGameButtons = (ga: GameSelectorDrawer, gameContainer: GameContaine
 
     const button2 = new GameButtonDrawer("Tic Tac Toe");
     button2.addClickEventListener(() => {
-        console.log("Creating TicTacToe");
-        gameContainer.drawGame(new TicTacToeDrawer());
+        button2.setAsActive();
+        gameContainer.drawGame(new TicTacToeBoard());
     });
     ga.addButton(button2.element);
 
