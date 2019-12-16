@@ -1,11 +1,12 @@
-import {TileObserver} from "./BattleshipPlayerBoard";
+import UpdateObserver from "./UpdateObserver";
 
 export default class BattleshipBoardTileElement extends HTMLElement {
 
     private hasShip: boolean = false;
-    private readonly observer: TileObserver;
+    private readonly observer: UpdateObserver;
+    private gameEnded = false;
 
-    constructor(tileObserver: TileObserver) {
+    constructor(tileObserver: UpdateObserver) {
         super();
         this.observer = tileObserver;
 
@@ -30,14 +31,20 @@ export default class BattleshipBoardTileElement extends HTMLElement {
 
     private setOnClick() {
         this.addEventListener("click", () => {
-            this.observer.notifyTargetClick();
+            if (this.gameEnded) return;
+
             if (this.hasShip) {
+                this.observer.update();
                 this.innerText = "whatshot";
                 this.style.color = "rgba(255,40,37,0.76)";
             } else {
                 this.innerText = "waves";
             }
         });
+    }
+
+    setGameEnded() {
+        this.gameEnded = true;
     }
 
 }

@@ -1,20 +1,18 @@
 import BattleshipBoardTileElement from "./BattleshipBoardTileElement";
+import UpdateObserver from "./UpdateObserver";
 
-export interface TileObserver {
-
-    notifyTargetClick(): void;
-
-}
-
-export default class BattleshipPlayerBoard extends HTMLElement implements TileObserver {
+export default class BattleshipPlayerBoard extends HTMLElement implements UpdateObserver {
 
     private readonly container: HTMLDivElement;
     private cells: BattleshipBoardTileElement[];
     private readonly isUser: boolean;
     private targetClickCount = 0;
+    private readonly observer: UpdateObserver;
+    private hasWin = false;
 
-    constructor(isUser = false) {
+    constructor(observer: UpdateObserver, isUser = false) {
         super();
+        this.observer = observer;
         this.isUser = isUser;
         this.container = this.createContainer();
         this.cells = this.createCells();
@@ -55,7 +53,6 @@ export default class BattleshipPlayerBoard extends HTMLElement implements TileOb
     }
 
     private createRandomTiles(cells: BattleshipBoardTileElement[]) {
-        let ammount = 10;
         const positionsAvaiable = this.createRange(36);
 
         for (let ammount = 0; ammount < 10; ammount++) {
@@ -81,10 +78,20 @@ export default class BattleshipPlayerBoard extends HTMLElement implements TileOb
         return container;
     }
 
-    notifyTargetClick(): void {
+    update() {
         this.targetClickCount++;
+        if (this.targetClickCount == 10) {
+            this.handleWin();
+        }
     }
 
+    private handleWin() {
+        this.hasWin = true;
+        for (const cell of this.cells) {
+            cell.setGameEnded();
+        }
+        this.observer.update();
+    }
 
 }
 

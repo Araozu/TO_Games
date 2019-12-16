@@ -1,7 +1,8 @@
 import GameBoardElement from "../../GameBoardElement";
 import BattleshipPlayerBoard from "./BattleshipPlayerBoard";
+import UpdateObserver from "./UpdateObserver";
 
-export default class BattleshipBoard extends GameBoardElement {
+export default class BattleshipBoard extends GameBoardElement implements UpdateObserver {
 
     private readonly playerBoard: BattleshipPlayerBoard;
     private readonly computerBoard: BattleshipPlayerBoard;
@@ -9,8 +10,8 @@ export default class BattleshipBoard extends GameBoardElement {
     constructor() {
         super();
 
-        this.playerBoard = new BattleshipPlayerBoard(true);
-        this.computerBoard = new BattleshipPlayerBoard();
+        this.playerBoard = new BattleshipPlayerBoard(this, true);
+        this.computerBoard = new BattleshipPlayerBoard(this);
 
         this.setUpStyles();
 
@@ -37,6 +38,10 @@ export default class BattleshipBoard extends GameBoardElement {
         element.appendChild(target);
 
         this.appendChild(element);
+    }
+
+    update() {
+        console.log("Someone has won...")
     }
 
     loadGameState(): void {
