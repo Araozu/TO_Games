@@ -1,16 +1,25 @@
 import BattleshipBoardTileElement from "./BattleshipBoardTileElement";
 import UpdateObserver from "./UpdateObserver";
+import {BattleshipBoardNotifier} from "./BattleshipBoard";
 
-export default class BattleshipPlayerBoard extends HTMLElement implements UpdateObserver {
+export interface BattleshipPlayerBoardUserSelectObserver extends UpdateObserver {
+
+    handleUserSelect(): void;
+    handleClick(isTarget: boolean): void;
+
+}
+
+export default class BattleshipPlayerBoard extends HTMLElement implements BattleshipPlayerBoardUserSelectObserver {
 
     private readonly container: HTMLDivElement;
     private cells: BattleshipBoardTileElement[];
     private readonly isUser: boolean;
-    private targetClickCount = 0;
-    private readonly observer: UpdateObserver;
-    private hasWin = false;
+    private _targetClickRemaining = 10;
+    private targetClicked = 0;
+    private readonly observer: BattleshipBoardNotifier;
+    private _hasLost = false;
 
-    constructor(observer: UpdateObserver, isUser = false) {
+    constructor(observer: BattleshipBoardNotifier, isUser = false) {
         super();
         this.observer = observer;
         this.isUser = isUser;
@@ -19,6 +28,10 @@ export default class BattleshipPlayerBoard extends HTMLElement implements Update
 
         this.appendChild(this.container);
     }
+
+    get hasLost() { return this._hasLost; }
+
+    get targetClickRemaining() { return this._targetClickRemaining; }
 
     private cleanCells() {
         this.cells = [];
@@ -36,7 +49,7 @@ export default class BattleshipPlayerBoard extends HTMLElement implements Update
         const elements: BattleshipBoardTileElement[] = [];
 
         for (let i = 0; i < 36; i++) {
-            const tile = new BattleshipBoardTileElement(this);
+            const tile = new BattleshipBoardTileElement(this, this.isUser);
             elements.push(tile);
             this.container.appendChild(tile);
         }
@@ -46,14 +59,14 @@ export default class BattleshipPlayerBoard extends HTMLElement implements Update
         return elements;
     }
 
-    private createRange(ammount: number) {
+    static createRange(ammount: number) {
         const elements = [];
         for (let i = 0; i < ammount; i++) elements.push(i);
         return elements;
     }
 
     private createRandomTiles(cells: BattleshipBoardTileElement[]) {
-        const positionsAvaiable = this.createRange(36);
+        const positionsAvaiable = BattleshipPlayerBoard.createRange(36);
 
         for (let ammount = 0; ammount < 10; ammount++) {
             const position = Math.floor(Math.random() * positionsAvaiable.length);
@@ -78,15 +91,44 @@ export default class BattleshipPlayerBoard extends HTMLElement implements Update
         return container;
     }
 
-    update() {
-        this.targetClickCount++;
-        if (this.targetClickCount == 10) {
+    update() {}
+
+
+    handleClick(isTarget: boolean): void {
+        if (isTarget) {
+            this.targetClicked++;
+        }
+
+        if (this.targetClicked == 10) {
             this.handleWin();
+            return;
+        }
+
+        if (!this.isUser) {
+            this.observer.handleComputerCellClicked();
         }
     }
 
+
+    simulateClick(position: number) {
+        this.cells[position].simulateClick(true);
+    }
+
+    handleUserSelect(): void {
+
+        this._targetClickRemaining--;
+        this.observer.handlePlayerCellClicked();
+
+        if (this._targetClickRemaining == 0) {
+            for (const cell of this.cells) {
+                cell.endUserSelecting();
+            }
+        }
+
+    }
+
     private handleWin() {
-        this.hasWin = true;
+        this._hasLost = true;
         for (const cell of this.cells) {
             cell.setGameEnded();
         }

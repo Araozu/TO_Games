@@ -1,14 +1,21 @@
 import UpdateObserver from "./UpdateObserver";
+import {BattleshipPlayerBoardUserSelectObserver} from "./BattleshipPlayerBoard";
 
 export default class BattleshipBoardTileElement extends HTMLElement {
 
     private hasShip: boolean = false;
-    private readonly observer: UpdateObserver;
+    private readonly observer: BattleshipPlayerBoardUserSelectObserver;
     private gameEnded = false;
+    private isUserSelecting: boolean;
+    private isUserTile: boolean;
+    private isUserSelected = false;
+    private hasBeenClicked = false;
 
-    constructor(tileObserver: UpdateObserver) {
+    constructor(tileObserver: BattleshipPlayerBoardUserSelectObserver, isUserHandled = false) {
         super();
         this.observer = tileObserver;
+        this.isUserSelecting = isUserHandled;
+        this.isUserTile = isUserHandled;
 
         this.style.border = "solid 1px gray";
 
@@ -33,14 +40,39 @@ export default class BattleshipBoardTileElement extends HTMLElement {
         this.addEventListener("click", () => {
             if (this.gameEnded) return;
 
-            if (this.hasShip) {
-                this.observer.update();
-                this.innerText = "whatshot";
-                this.style.color = "rgba(255,40,37,0.76)";
-            } else {
-                this.innerText = "waves";
+
+            if (this.isUserSelecting) {
+                if (this.isUserSelected) return;
+
+                this.setHasShip();
+                this.style.backgroundColor = "lightgray";
+                this.observer.handleUserSelect();
+                this.isUserSelected = true;
+
+            } else if (!this.isUserTile) {
+                this.simulateClick();
             }
         });
+    }
+
+    simulateClick(isFromFather = false) {
+        if (this.hasBeenClicked) return;
+
+        //if (!isFromFather)
+            this.observer.handleClick(this.hasShip);
+
+        if (this.hasShip) {
+            this.innerText = "whatshot";
+            this.style.color = "rgba(255,40,37,0.76)";
+        } else {
+            this.innerText = "waves";
+        }
+
+        this.hasBeenClicked = true;
+    }
+
+    endUserSelecting() {
+        this.isUserSelecting = false;
     }
 
     setGameEnded() {
