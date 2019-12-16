@@ -1,4 +1,4 @@
-import PlayerWinCounterElement from "./TicTacToePanelElement/PlayerWinCounterElement";
+import PlayerWinCounterElement from "../PlayerWinCounterElement";
 import {BoardValue} from "./TicTacToeBoard";
 
 export default class TicTacToePanelElement extends HTMLElement {

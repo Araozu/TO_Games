@@ -16,6 +16,7 @@ export default class GameTittleButtonElement extends HTMLElement {
         apply("box-shadow", "1px 1px 5px gray");
         apply("border-radius", "5px");
         apply("cursor", "pointer");
+        apply("user-select", "none");
 
         this.innerText = gameName;
     }

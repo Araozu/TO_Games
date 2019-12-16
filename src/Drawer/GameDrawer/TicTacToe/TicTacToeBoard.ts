@@ -1,6 +1,6 @@
 import HTMLElementStyleApplier from "../../../Utils/HTMLElementStyleApplier";
 import TicTacToeElement from "./TicTacToeElement";
-import GameDrawerElement from "../../GameDrawerElement";
+import GameBoardElement from "../../GameBoardElement";
 import TicTacToePanelElement from "./TicTacToePanelElement";
 
 export enum BoardValue {
@@ -9,7 +9,7 @@ export enum BoardValue {
     NONE
 }
 
-export default class TicTacToeBoard extends GameDrawerElement {
+export default class TicTacToeBoard extends GameBoardElement {
 
     private readonly container: HTMLDivElement;
     private readonly panel: TicTacToePanelElement;

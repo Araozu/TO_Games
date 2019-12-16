@@ -1,4 +1,4 @@
-import GameDrawerElement from "../Drawer/GameDrawerElement";
+import GameBoardElement from "../Drawer/GameBoardElement";
 
 export default class GameContainerElement extends HTMLElement {
 
@@ -9,7 +9,7 @@ export default class GameContainerElement extends HTMLElement {
 
     }
 
-    drawGame(game: GameDrawerElement) {
+    drawGame(game: GameBoardElement) {
 
         if (this.firstChild) {
             this.removeChild(this.firstChild);

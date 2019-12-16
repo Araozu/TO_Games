@@ -1,30 +1,38 @@
 import MainScreen from "./Screens/MainScreen";
 import HTMLElementGetter from "./Utils/HTMLElementGetter";
-import GameButtonDrawer from "./Drawer/GameButtonDrawer";
 import TicTacToeBoard from "./Drawer/GameDrawer/TicTacToe/TicTacToeBoard";
 import MainTitleElement from "./Drawer/MainTitleElement";
 import GameSelectorElement from "./Drawer/GameSelectorElement";
 import GameContainerElement from "./Screens/GameContainerElement";
 import GameTittleButtonElement from "./Drawer/GameTittleButtonElement";
+import BattleshipBoard from "./Drawer/GameDrawer/Battleship/BattleshipBoard";
 
 const initiateGameButtons = (ga: GameSelectorElement, gameContainer: GameContainerElement) => {
 
     const button1 = new GameTittleButtonElement("Battleship");
+    const button2 = new GameTittleButtonElement("Tic Tac Toe");
+    const button3 = new GameTittleButtonElement("Drunken Bottle");
+
     button1.addClickEventListener(() => {
-        console.log("The button has been pressed! :D")
+        button2.setAsDisabled();
+        button3.setAsDisabled();
+        button1.setAsActive();
+        gameContainer.drawGame(new BattleshipBoard());
     });
     ga.addButton(button1);
 
-    const button2 = new GameTittleButtonElement("Tic Tac Toe");
     button2.addClickEventListener(() => {
+        button1.setAsDisabled();
+        button3.setAsDisabled();
         button2.setAsActive();
         gameContainer.drawGame(new TicTacToeBoard());
     });
     ga.addButton(button2);
 
-    const button3 = new GameTittleButtonElement("Drunken Bottle");
     button3.addClickEventListener(() => {
-        console.log("And again... ")
+        button1.setAsDisabled();
+        button2.setAsDisabled();
+        button3.setAsActive();
     });
     ga.addButton(button3);
 

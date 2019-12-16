@@ -1,4 +1,4 @@
-export default abstract class GameDrawerElement extends HTMLElement {
+export default abstract class GameBoardElement extends HTMLElement {
 
     public abstract resetGame(): void;
 
@@ -10,4 +10,4 @@ export default abstract class GameDrawerElement extends HTMLElement {
 
 }
 
-window.customElements.define("game-drawer-element", GameDrawerElement);
+window.customElements.define("game-drawer-element", GameBoardElement);
