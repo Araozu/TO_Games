@@ -1,5 +1,4 @@
 import HTMLElementStyleApplier from "../Utils/HTMLElementStyleApplier";
-import GameContainerElement from "../Screens/GameContainerElement";
 
 export default class GameTittleButtonElement extends HTMLElement {
 
@@ -8,6 +7,7 @@ export default class GameTittleButtonElement extends HTMLElement {
         const styleApplier = new HTMLElementStyleApplier(this);
         const apply = styleApplier.apply.bind(styleApplier);
 
+        // apply("text-align", "center");
         apply("background-color", "white");
         apply("border", "none");
         apply("padding", "15px 30px");

@@ -16,7 +16,6 @@ export default class GameContainerElement extends HTMLElement {
         }
 
         this.appendChild(game);
-        game.resetGame();
 
     }
 

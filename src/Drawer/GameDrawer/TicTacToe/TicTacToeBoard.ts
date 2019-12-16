@@ -1,7 +1,7 @@
 import HTMLElementStyleApplier from "../../../Utils/HTMLElementStyleApplier";
 import TicTacToeElement from "./TicTacToeElement";
 import GameDrawerElement from "../../GameDrawerElement";
-import TicTacToePanel from "./TicTacToePanel";
+import TicTacToePanelElement from "./TicTacToePanelElement";
 
 export enum BoardValue {
     X,
@@ -12,7 +12,7 @@ export enum BoardValue {
 export default class TicTacToeBoard extends GameDrawerElement {
 
     private readonly container: HTMLDivElement;
-    private readonly panel: HTMLElement;
+    private readonly panel: TicTacToePanelElement;
     private actualPlayer = BoardValue.X;
     private elements: TicTacToeElement[] = [];
     private clickCounter = 0;
@@ -21,8 +21,9 @@ export default class TicTacToeBoard extends GameDrawerElement {
     constructor() {
         super();
         this.container = this.createElement();
+        this.createCells();
         this.appendChild(this.container);
-        this.panel = new TicTacToePanel();
+        this.panel = new TicTacToePanelElement();
         this.appendChild(this.panel);
     }
 
@@ -40,18 +41,34 @@ export default class TicTacToeBoard extends GameDrawerElement {
         apply("width", "600px");
         apply("text-align", "center");
 
+        return container;
+    }
+
+    private createCells() {
+        this.cleanContainer();
+        this.elements = [];
         for (let i = 0; i <= 8; i++) {
             const element = new TicTacToeElement(i, this.getActualPlayer.bind(this), this.updateBoard.bind(this));
             this.elements.push(element);
-            container.appendChild(element);
+            this.container.appendChild(element);
         }
+    }
 
-        return container;
+    private cleanContainer() {
+        while (this.container.hasChildNodes()) {
+            this.container.removeChild(this.container.lastChild!);
+        }
     }
 
     private getActualPlayer(): BoardValue {
         if (this.gameEnded) return BoardValue.NONE;
         else return this.actualPlayer;
+    }
+
+    private switchBoardValue() {
+        return this.actualPlayer === BoardValue.X?
+            BoardValue.O:
+            BoardValue.X;
     }
 
     private updateBoard() {
@@ -61,21 +78,22 @@ export default class TicTacToeBoard extends GameDrawerElement {
 
         this.clickCounter++;
 
-        this.actualPlayer = this.actualPlayer === BoardValue.X?
-            BoardValue.O:
-            BoardValue.X;
+        this.actualPlayer = this.switchBoardValue();
 
         const result = this.checkWinConditions();
 
         if (result[0]) {
             this.gameEnded = true;
             this.paintElementsVictory(result[1]);
+            this.panel.updateWinValues(this.switchBoardValue());
+            this.resetGame();
             return;
         }
 
         if (this.clickCounter === 9) {
             this.gameEnded = true;
             this.paintElementsDraw();
+            this.resetGame();
             return;
         }
 
@@ -156,7 +174,11 @@ export default class TicTacToeBoard extends GameDrawerElement {
     }
 
     resetGame(): void {
-
+        setTimeout(() => {
+            this.createCells();
+            this.gameEnded = false;
+            this.clickCounter = 0;
+        }, 2000);
     }
 
     resetGameState(): void {
