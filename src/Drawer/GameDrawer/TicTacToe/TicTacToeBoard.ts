@@ -170,9 +170,6 @@ export default class TicTacToeBoard extends GameBoardElement {
         return this.compareElementValues3(2, 4, 6);
     }
 
-    loadGameState(): void {
-
-    }
 
     resetGame(): void {
         setTimeout(() => {
@@ -184,13 +181,6 @@ export default class TicTacToeBoard extends GameBoardElement {
         }, 2000);
     }
 
-    resetGameState(): void {
-
-    }
-
-    saveGameState(): void {
-
-    }
 
 }
 

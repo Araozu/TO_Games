@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --open --port 7777",
-    "build": "webpack"
+    "build": "webpack --mode production"
   },
   "devDependencies": {
     "ts-loader": "^6.2.1",

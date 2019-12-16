@@ -55,11 +55,11 @@ export default class BattleshipBoardTileElement extends HTMLElement {
         });
     }
 
-    simulateClick(isFromFather = false) {
+    simulateClick() {
         if (this.hasBeenClicked) return;
 
         //if (!isFromFather)
-            this.observer.handleClick(this.hasShip);
+        this.observer.handleClick(this.hasShip);
 
         if (this.hasShip) {
             this.innerText = "whatshot";

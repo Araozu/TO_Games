@@ -111,7 +111,7 @@ export default class BattleshipPlayerBoard extends HTMLElement implements Battle
 
 
     simulateClick(position: number) {
-        this.cells[position].simulateClick(true);
+        this.cells[position].simulateClick();
     }
 
     handleUserSelect(): void {

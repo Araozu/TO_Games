@@ -48,8 +48,6 @@ export default class BattleshipBoard extends GameBoardElement implements Battles
         this.computerWinMessage.style.fontSize = "2rem";
         this.computerWinMessage.style.textAlign = "center";
         this.computerWinMessage.style.padding = "1rem 2rem";
-
-
     }
 
     private mountBoard(label: string, target: BattleshipPlayerBoard) {
@@ -95,8 +93,6 @@ export default class BattleshipBoard extends GameBoardElement implements Battles
         this.playerBoard.simulateClick(tilePosition);
     }
 
-
-
     handleWin() {
 
         if (this.playerBoard.hasLost) {
@@ -107,17 +103,7 @@ export default class BattleshipBoard extends GameBoardElement implements Battles
 
     }
 
-    loadGameState(): void {
-    }
-
-    resetGame(): void {
-    }
-
-    resetGameState(): void {
-    }
-
-    saveGameState(): void {
-    }
+    resetGame(): void {}
 
 
 }
