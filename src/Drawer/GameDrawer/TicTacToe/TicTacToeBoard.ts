@@ -13,6 +13,7 @@ export default class TicTacToeBoard extends GameDrawerElement {
 
     private readonly container: HTMLDivElement;
     private readonly panel: TicTacToePanelElement;
+    private initialPlayer = BoardValue.X;
     private actualPlayer = BoardValue.X;
     private elements: TicTacToeElement[] = [];
     private clickCounter = 0;
@@ -65,8 +66,8 @@ export default class TicTacToeBoard extends GameDrawerElement {
         else return this.actualPlayer;
     }
 
-    private switchBoardValue() {
-        return this.actualPlayer === BoardValue.X?
+    private switchBoardValue(value: BoardValue) {
+        return value === BoardValue.X?
             BoardValue.O:
             BoardValue.X;
     }
@@ -78,14 +79,14 @@ export default class TicTacToeBoard extends GameDrawerElement {
 
         this.clickCounter++;
 
-        this.actualPlayer = this.switchBoardValue();
+        this.actualPlayer = this.switchBoardValue(this.actualPlayer);
 
         const result = this.checkWinConditions();
 
         if (result[0]) {
             this.gameEnded = true;
             this.paintElementsVictory(result[1]);
-            this.panel.updateWinValues(this.switchBoardValue());
+            this.panel.updateWinValues(this.switchBoardValue(this.actualPlayer));
             this.resetGame();
             return;
         }
@@ -175,6 +176,8 @@ export default class TicTacToeBoard extends GameDrawerElement {
 
     resetGame(): void {
         setTimeout(() => {
+            this.actualPlayer = this.switchBoardValue(this.initialPlayer);
+            this.initialPlayer = this.actualPlayer;
             this.createCells();
             this.gameEnded = false;
             this.clickCounter = 0;
